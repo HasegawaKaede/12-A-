@@ -1,0 +1,114 @@
+import React from "react";
+
+const products = [
+  {
+    id: 1,
+    top: "top-0",
+    left: "left-0",
+    title: "8Kテレビ",
+    price: "〇〇〇〇円",
+    company: "株式会社×〇",
+    description: ["最新型の8Kテレビ", "1台あれば、おうちが映画館に。"],
+    titleClass: "top-0 left-[7px] absolute text-color",
+    buttonType: "purchase",
+  },
+  {
+    id: 2,
+    top: "top-0",
+    left: "left-[418px]",
+    title: "眼鏡",
+    price: "××円",
+    company: "株式会社××",
+    description: [
+      "ブルーライトカット機能付き",
+      "フレームを軽量化し、さらなる付け心地へ",
+    ],
+    titleClass: "top-0 left-[7px] absolute text-color",
+    buttonType: "purchase",
+  },
+  {
+    id: 3,
+    top: "top-[479px]",
+    left: "left-0",
+    title: "GPU",
+    price: "〇〇〇円",
+    company: "株式会社〇〇",
+    description: ["最新型のGPU"],
+    titleClass: "top-0 left-[7px] absolute text-color",
+    buttonType: "purchase",
+  },
+  {
+    id: 4,
+    top: "top-[479px]",
+    left: "left-[418px]",
+    title: "ゲーミングマウス",
+    price: "〇〇〇円",
+    company: "株式会社〇×",
+    description: ["××〇〇さんが愛用！"],
+    titleClass: "top-0 left-[7px] absolute text-color",
+    buttonType: "soldout",
+  },
+];
+
+type Product = (typeof products)[number];
+
+const ProductCard = ({ product }: { product: Product }) => {
+  const isSoldOut = product.buttonType === "soldout";
+
+  return (
+    <article
+      className={`inline-flex items-center gap-2.5 p-2.5 absolute ${product.top} ${product.left}`}
+    >
+      <div className="w-[281px] h-[398px] bg-blue-600 relative text-white">
+        {/* 画像エリア */}
+        <div className="h-40 bg-gray-400 w-full" />
+
+        {/* テキストエリア */}
+        <div className="p-2">
+          <h2 className="text-lg font-bold">{product.title}</h2>
+
+          <p className="text-sm mt-1">
+            {product.description.map((line, index) => (
+              <span key={index}>
+                {line}
+                {index < product.description.length - 1 && <br />}
+              </span>
+            ))}
+          </p>
+
+          <p className="mt-2">{product.company}</p>
+
+          <p className="text-right font-bold mt-1">{product.price}</p>
+        </div>
+
+        {/* ボタン */}
+        <div className="absolute bottom-2 left-2 w-[162px]">
+          {isSoldOut ? (
+            <button
+              disabled
+              className="w-full bg-gray-600 text-white py-2 cursor-not-allowed"
+            >
+              品切れ
+            </button>
+          ) : (
+            <button className="w-full bg-red-500 text-white py-2">
+              購入
+            </button>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+};
+
+export const Box = () => {
+  return (
+    <main className="relative w-[719px] h-[897px]">
+      <section className="relative w-full h-full">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </section>
+    </main>
+  );
+};
